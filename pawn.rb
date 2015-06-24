@@ -8,13 +8,13 @@ attr_accessor :turn
   end
 
   def symbol
-    symbol = team == :white ? "♙" : "♟"
-    symbol.colorize(team)
+    logo = team == :white ? "♙" : "♟"
+    super(logo)
   end
 
   def valid_moves
-    available = move_dirs.select{ |dir| board.in_board_and_empty?(new_pos(dir)) }
-    available_pos = available.map{ |dir| new_pos(dir) }
+    available_dirs = move_dirs.select{ |dir| board.in_board_and_empty?(new_pos(dir)) }
+    available_pos = available_dirs.map{ |dir| new_pos(dir) }
     available_pos.concat(eat_opponent)
   end
 
