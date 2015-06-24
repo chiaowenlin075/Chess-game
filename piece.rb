@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Piece
 
 attr_reader :team

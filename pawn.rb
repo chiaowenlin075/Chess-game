@@ -1,9 +1,15 @@
+# encoding: utf-8
 class Pawn < Piece
 attr_accessor :turn
 
   def initialize(pos, board, team)
     super(pos, board, team)
     @turn = 1
+  end
+
+  def symbol
+    symbol = team == :white ? "♙" : "♟"
+    symbol.colorize(team)
   end
 
   def valid_moves

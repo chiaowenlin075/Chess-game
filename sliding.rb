@@ -1,3 +1,4 @@
+# encoding: utf-8
 class SlidingPiece < Piece
   include Direction
 
@@ -17,19 +18,34 @@ class SlidingPiece < Piece
 end
 
 class Bishop < SlidingPiece
+  def symbol
+    symbol = team == :white ? "♗" : "♝"
+    symbol.colorize(team)
+  end
+
   def move_dirs
-    horizontal + vertical
+    diagonal
   end
 
 end
 
 class Rook < SlidingPiece
+  def symbol
+    symbol = team == :white ? "♖" : "♜"
+    symbol.colorize(team)
+  end
+
   def move_dirs
-    diagonal
+    horizontal + vertical
   end
 end
 
 class Queen < SlidingPiece
+  def symbol
+    symbol = team == :white ? "♕" : "♛"
+    symbol.colorize(team)
+  end
+
   def move_dirs
     horizontal + vertical + diagonal
   end

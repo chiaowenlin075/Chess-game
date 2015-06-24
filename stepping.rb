@@ -1,3 +1,4 @@
+# encoding: utf-8
 class SteppingPiece < Piece
   include Direction
 
@@ -8,6 +9,10 @@ class SteppingPiece < Piece
 end
 
 class Knight < SteppingPiece
+  def symbol
+    symbol = team == :white ? "♘" : "♞"
+    symbol.colorize(team)
+  end
 
   def move_dirs
     [
@@ -25,6 +30,11 @@ class Knight < SteppingPiece
 end
 
 class King < SteppingPiece
+  def symbol
+    symbol = team == :white ? "♔" : "♚"
+    symbol.colorize(team)
+  end
+
   def move_dirs
     vertical + horizontal + diagonal
   end

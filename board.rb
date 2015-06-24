@@ -1,6 +1,29 @@
 class Board
   GRIDSIZE = 8
 
+  ROWS = {
+    "A" => 0,
+    "B" => 1,
+    "C" => 2,
+    "D" => 3,
+    "E" => 4,
+    "F" => 5,
+    "G" => 6,
+    "H" => 7
+  }
+
+  COLS = {
+    "8" => 0,
+    "7" => 1,
+    "6" => 2,
+    "5" => 3,
+    "4" => 4,
+    "3" => 5,
+    "2" => 6,
+    "1" => 7
+  }
+
+
   attr_accessor :grid
   def initialize(need_board = true)
     @grid = Array.new(GRIDSIZE) { Array.new(GRIDSIZE) }
@@ -100,6 +123,24 @@ class Board
     end
     dup_board
   end
+
+  def show_board
+    puts "  #{ROWS.keys.join(" ")}"
+    @grid.each_with_index do |row, ridx|
+      print "#{COLS.key(ridx)} "
+      row.each_with_index do |el, cidx|
+        background_color = (ridx + cidx) % 2 == 0 ? :white : :red
+        if el == nil
+          print "  ".colorize(:background => background_color)
+        else
+          print " #{el.symbol}".colorize(:background => background_color)
+        end
+      end
+      puts "#{COLS.key(ridx)} "
+    end
+    puts "  #{ROWS.keys.join(" ")}"
+  end
+
 end
 
 class NotValidMoveError < StandardError
