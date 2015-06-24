@@ -8,10 +8,16 @@ attr_accessor :pos, :board
     @team = team
   end
 
-  def move(new_pos)
+  def move(new_pos) # move one single piece to new position
     board.move_pieces(pos, new_pos)
     self.turn += 1 if self.class == Pawn
   end
+
+  def inspect
+    "#{self.class}, #{team}"
+  end
+
+  private
 
   def available_pos?(another_pos) # either empty or opponent
     return false unless board.in_board?(another_pos)
@@ -29,4 +35,5 @@ attr_accessor :pos, :board
   def new_pos(dir)
     [pos[0] + dir[0] , pos[1] + dir[1]]
   end
+
 end

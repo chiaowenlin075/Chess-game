@@ -37,7 +37,28 @@ class Board
   end
 
   def pieces
-    grid.compact
+    grid.flatten.compact
+  end
+
+  def king_pos(team)
+    pieces.select { |piece| piece.class == King && piece.team == team }.first.pos
+  end
+
+  def same_team_pieces(team)
+    pieces.select { |piece| piece.team == team }
+  end
+
+  def all_valid_moves_of_team(team)
+    all_valid_moves = []
+    same_team_pieces(team).each do |piece|
+      all_valid_moves.concat(piece.valid_moves)
+    end
+    all_valid_moves.uniq
+  end
+
+  def in_check?(team)
+    oppo_team = team == :white ? :black : :white
+    all_valid_moves_of_team(oppo_team).include?(king_pos(team))
   end
 
   def empty?(pos)
@@ -49,7 +70,7 @@ class Board
   end
 
   def in_board_and_empty?(pos)
-    empty?(pos) && in_board?(pos)
+    in_board?(pos) && empty?(pos)
   end
 
 end
