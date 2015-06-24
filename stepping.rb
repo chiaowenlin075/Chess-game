@@ -3,15 +3,16 @@ class SteppingPiece < Piece
   include Direction
 
   def valid_moves
-    move_dirs.select{ |dir| available_pos?(new_pos(dir)) }.map{ |dir| new_pos(dir) }
+    valid_dirs = move_dirs.select{ |dir| available_pos?(new_pos(dir)) }
+    valid_dirs.map{ |dir| new_pos(dir) }
   end
 
 end
 
 class Knight < SteppingPiece
   def symbol
-    symbol = team == :white ? "♘" : "♞"
-    symbol.colorize(team)
+    logo = team == :white ? "♘" : "♞"
+    super(logo)
   end
 
   def move_dirs
@@ -31,8 +32,8 @@ end
 
 class King < SteppingPiece
   def symbol
-    symbol = team == :white ? "♔" : "♚"
-    symbol.colorize(team)
+    logo = team == :white ? "♔" : "♚"
+    super(logo)
   end
 
   def move_dirs
