@@ -18,10 +18,21 @@ attr_accessor :pos, :board
     valid_moves.select { |move| !move_into_check?(move) }
   end
 
+  def win_moves
+    safe_moves.select { |move| move_into_win?(move) }
+  end
+
   def move_into_check?(new_pos)
     dup_board = board.deep_dup
     dup_board.move!(pos, new_pos)
     dup_board.in_check?(team)
+  end
+
+  def move_into_win?(new_pos)
+    oppo_team = team == :white ? :black : :white
+    dup_board = board.deep_dup
+    dup_board.move(pos, new_pos)
+    dup_board.in_check?(oppo_team)
   end
 
   def inspect

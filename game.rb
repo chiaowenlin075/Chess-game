@@ -4,7 +4,7 @@ class Game
 
   def initialize
     @board = Board.new
-    @player1 = HumanPlayer.new(board, :white)
+    @player1 = ComputerPlayer.new(board, :white)
     @player2 = HumanPlayer.new(board, :black)
     @current_player = @player1
   end

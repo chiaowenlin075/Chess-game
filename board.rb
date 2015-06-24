@@ -98,6 +98,12 @@ class Board
     all_valid_moves.uniq
   end
 
+  def win_move_pieces(team)
+    same_team_pieces(team).select do |piece|
+      !piece.win_moves.empty?
+    end
+  end
+
   def in_check?(team)
     oppo_team = team == :white ? :black : :white
     all_valid_moves_of_team(oppo_team).include?(king_pos(team))
