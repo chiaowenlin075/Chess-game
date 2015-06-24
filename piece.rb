@@ -9,10 +9,9 @@ attr_accessor :pos, :board
     @team = team
   end
 
-  # def move(new_pos) # move one single piece to new position
-  #   board.move_pieces(pos, new_pos)
-  #   self.turn += 1 if self.class == Pawn
-  # end
+  def symbol(logo)
+    logo.colorize(team)
+  end
 
   def safe_moves
     valid_moves.select { |move| !move_into_check?(move) }
@@ -21,6 +20,12 @@ attr_accessor :pos, :board
   def win_moves
     safe_moves.select { |move| move_into_win?(move) }
   end
+
+  def inspect
+    "#{self.class}, #{team}"
+  end
+
+  private
 
   def move_into_check?(new_pos)
     dup_board = board.deep_dup
@@ -35,12 +40,6 @@ attr_accessor :pos, :board
     dup_board.in_check?(oppo_team)
   end
 
-  def inspect
-    "#{self.class}, #{team}"
-  end
-
-  private
-
   def available_pos?(another_pos) # either empty or opponent
     return false unless board.in_board?(another_pos)
     board.empty?(another_pos) || !same_team?(another_pos)
@@ -51,7 +50,11 @@ attr_accessor :pos, :board
   end
 
   def in_board_and_diff_team?(another_pos)
-    board.in_board?(another_pos) && !board.empty?(another_pos) && !same_team?(another_pos)
+    board.in_board?(another_pos) && diff_team?(another_pos)
+  end
+
+  def diff_team?(another_pos)
+    !board.empty?(another_pos) && !same_team?(another_pos)
   end
 
   def new_pos(dir)
