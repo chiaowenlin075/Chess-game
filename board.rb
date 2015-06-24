@@ -148,7 +148,7 @@ class Board
           print " #{el.symbol} ".colorize(:background => background_color)
         end
       end
-      puts "#{ROWS.key(ridx)} "
+      puts " #{ROWS.key(ridx)}"
     end
     puts "   #{COLS.keys.join("  ")}"
   end
