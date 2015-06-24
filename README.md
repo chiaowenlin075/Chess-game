@@ -3,10 +3,10 @@
 
 Use Ruby to buid basic Chess game, available for either single player against computer or 2 players.
 
-Please the following step to play: 
-1. load 'chess.rb'
-2. game = Game.new
-3. Select how many players
-4. game.play
-
+Please the following step to play: <br>
+1. load 'chess.rb' <br>
+2. game = Game.new <br>
+3. Select how many players <br>
+4. game.play <br>
+<br>
 Please let me know if there's anything I can improve :)
