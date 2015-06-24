@@ -18,6 +18,9 @@ class HumanPlayer
         retry
       end
       board.move(from_pos, to_pos)
+    rescue InvalidInputError
+      puts "Invalid start position, please choose again!"
+      retry
     rescue InvalidPieceError
       puts "Invalid start position, please choose again!"
       retry
