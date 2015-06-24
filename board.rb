@@ -31,12 +31,24 @@ class Board
     self.grid[row][col] = piece
   end
 
-  def move(old_pos, new_pos)
+  def move(old_pos, new_pos) # move one single piece to new position and update info
+    raise NotValidMoveError unless in_board?(old_pos) &&
+                                    !empty?(old_pos) &&
+                                    self[old_pos].valid_moves.include?(new_pos)
+    raise UnsafeMoveError unless self[old_pos].safe_moves.incude?(new_pos)
+
+    self[new_pos], self[old_pos] = self[old_pos], nil
+    self[new_pos].pos = new_pos
+    self[new_pos].turn += 1 if self[new_pos].class == Pawn
+  end
+
+  def move!(old_pos, new_pos) # move without checking safety
     raise NotValidMoveError unless in_board?(old_pos) &&
                                     !empty?(old_pos) &&
                                     self[old_pos].valid_moves.include?(new_pos)
     self[new_pos], self[old_pos] = self[old_pos], nil
     self[new_pos].pos = new_pos
+    self[new_pos].turn += 1 if self[new_pos].class == Pawn
   end
 
   def pieces
@@ -64,6 +76,10 @@ class Board
     all_valid_moves_of_team(oppo_team).include?(king_pos(team))
   end
 
+  def checkmate?(team)
+    in_check?(team) && same_team_pieces(team).all? { |piece| piece.safe_moves.empty? }
+  end
+
   def empty?(pos)
     self[pos] == nil
   end
@@ -76,7 +92,18 @@ class Board
     in_board?(pos) && empty?(pos)
   end
 
+  def deep_dup
+    dup_board = Board.new(false)
+    pieces.each do |piece|
+      dup_board[piece.pos] = piece.class.new(piece.pos.dup, dup_board, piece.team)
+      dup_board[piece.pos].turn = piece.turn if piece.class == Pawn
+    end
+    dup_board
+  end
 end
 
 class NotValidMoveError < StandardError
+end
+
+class UnsafeMoveError < StandardError
 end

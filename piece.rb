@@ -8,9 +8,19 @@ attr_accessor :pos, :board
     @team = team
   end
 
-  def move(new_pos) # move one single piece to new position
-    board.move_pieces(pos, new_pos)
-    self.turn += 1 if self.class == Pawn
+  # def move(new_pos) # move one single piece to new position
+  #   board.move_pieces(pos, new_pos)
+  #   self.turn += 1 if self.class == Pawn
+  # end
+
+  def safe_moves
+    valid_moves.select { |move| !move_into_check?(move) }
+  end
+
+  def move_into_check?(new_pos)
+    dup_board = board.deep_dup
+    dup_board.move!(pos, new_pos)
+    dup_board.in_check?(team)
   end
 
   def inspect
