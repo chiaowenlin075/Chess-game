@@ -7,7 +7,7 @@ class SlidingPiece < Piece
     return [possible_pos] if in_board_and_diff_team?(possible_pos)
     return [] unless board.in_board_and_empty?(possible_pos)
 
-    [possible_pos] + valid_moves_dir(dir, possible_pos)
+    [possible_pos].concat(valid_moves_dir(dir, possible_pos))
   end
 
   def valid_moves
@@ -19,8 +19,8 @@ end
 
 class Bishop < SlidingPiece
   def symbol
-    symbol = team == :white ? "♗" : "♝"
-    symbol.colorize(team)
+    logo = team == :white ? "♗" : "♝"
+    super(logo)
   end
 
   def move_dirs
@@ -31,8 +31,8 @@ end
 
 class Rook < SlidingPiece
   def symbol
-    symbol = team == :white ? "♖" : "♜"
-    symbol.colorize(team)
+    logo = team == :white ? "♖" : "♜"
+    super(logo)
   end
 
   def move_dirs
@@ -42,8 +42,8 @@ end
 
 class Queen < SlidingPiece
   def symbol
-    symbol = team == :white ? "♕" : "♛"
-    symbol.colorize(team)
+    logo = team == :white ? "♕" : "♛"
+    super(logo)
   end
 
   def move_dirs
