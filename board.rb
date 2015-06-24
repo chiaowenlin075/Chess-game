@@ -1,7 +1,7 @@
 class Board
   GRIDSIZE = 8
 
-  ROWS = {
+  COLS = {
     "A" => 0,
     "B" => 1,
     "C" => 2,
@@ -12,7 +12,7 @@ class Board
     "H" => 7
   }
 
-  COLS = {
+  ROWS = {
     "8" => 0,
     "7" => 1,
     "6" => 2,
@@ -31,7 +31,7 @@ class Board
   end
 
   def make_grid
-    pieces = [Bishop, Knight, Rook, Queen, King, Rook, Knight, Bishop]
+    pieces = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
 
     [0, 7].each do |row|
       team = row == 0 ? :white : :black # start from 0 is team white
@@ -58,7 +58,7 @@ class Board
     raise NotValidMoveError unless in_board?(old_pos) &&
                                     !empty?(old_pos) &&
                                     self[old_pos].valid_moves.include?(new_pos)
-    raise UnsafeMoveError unless self[old_pos].safe_moves.incude?(new_pos)
+    raise UnsafeMoveError unless self[old_pos].safe_moves.include?(new_pos)
 
     self[new_pos], self[old_pos] = self[old_pos], nil
     self[new_pos].pos = new_pos
@@ -84,6 +84,10 @@ class Board
 
   def same_team_pieces(team)
     pieces.select { |piece| piece.team == team }
+  end
+
+  def moveable_pieces(team)
+    same_team_pieces(team).select { |piece| !piece.safe_moves.empty? }
   end
 
   def all_valid_moves_of_team(team)
@@ -125,20 +129,20 @@ class Board
   end
 
   def show_board
-    puts "  #{ROWS.keys.join(" ")}"
+    puts "   #{COLS.keys.join("  ")}"
     @grid.each_with_index do |row, ridx|
-      print "#{COLS.key(ridx)} "
+      print "#{ROWS.key(ridx)} "
       row.each_with_index do |el, cidx|
-        background_color = (ridx + cidx) % 2 == 0 ? :white : :red
+        background_color = (ridx + cidx) % 2 == 0 ? :gray : :red
         if el == nil
-          print "  ".colorize(:background => background_color)
+          print "   ".colorize(:background => background_color)
         else
-          print " #{el.symbol}".colorize(:background => background_color)
+          print " #{el.symbol} ".colorize(:background => background_color)
         end
       end
-      puts "#{COLS.key(ridx)} "
+      puts "#{ROWS.key(ridx)} "
     end
-    puts "  #{ROWS.keys.join(" ")}"
+    puts "   #{COLS.keys.join("  ")}"
   end
 
 end
