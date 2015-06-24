@@ -31,7 +31,10 @@ class Board
     self.grid[row][col] = piece
   end
 
-  def move_pieces(old_pos, new_pos)
+  def move(old_pos, new_pos)
+    raise NotValidMoveError unless in_board?(old_pos) &&
+                                    !empty?(old_pos) &&
+                                    self[old_pos].valid_moves.include?(new_pos)
     self[new_pos], self[old_pos] = self[old_pos], nil
     self[new_pos].pos = new_pos
   end
@@ -73,4 +76,7 @@ class Board
     in_board?(pos) && empty?(pos)
   end
 
+end
+
+class NotValidMoveError < StandardError
 end
