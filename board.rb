@@ -99,9 +99,7 @@ class Board
   end
 
   def win_move_pieces(team)
-    same_team_pieces(team).select do |piece|
-      !piece.win_moves.empty?
-    end
+    same_team_pieces(team).select{ |piece| !piece.win_moves.empty? }
   end
 
   def in_check?(team)
@@ -110,7 +108,11 @@ class Board
   end
 
   def checkmate?(team)
-    in_check?(team) && same_team_pieces(team).all? { |piece| piece.safe_moves.empty? }
+    in_check?(team) && no_safe_moves?(team)
+  end
+
+  def no_safe_moves?(team)
+    same_team_pieces(team).all? { |piece| piece.safe_moves.empty? }
   end
 
   def empty?(pos)
